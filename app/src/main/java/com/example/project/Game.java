@@ -2,32 +2,27 @@ package com.example.project;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.project.databinding.ActivityGameBinding;
+import com.example.project.databinding.FragmentGameBinding;
+
+import java.util.Objects;
 
 public class Game extends Fragment {
 
+    FragmentGameBinding binding;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_game, container, false);
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        ActivityGameBinding binding = ActivityGameBinding.inflate(getLayoutInflater());
-        super.onCreate(savedInstanceState);
+        binding = FragmentGameBinding.inflate(inflater);
 
-
-
-        DrawView dv = new DrawView(getContext());
-        getActivity().setContentView(dv);
-
+        return new DrawView(getContext());
     }
 }

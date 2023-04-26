@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -14,8 +15,8 @@ import java.util.ArrayList;
 public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
 
     private DrawThread drawThread;
-    private ArrayList<Sprite> sprites = new ArrayList<Sprite>();
-    private Context context;
+    private final ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+    private final Context context;
 
     public DrawView(Context context) {
         super(context);
@@ -42,6 +43,7 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
                 drawThread.join();
                 retry = false;
             } catch (InterruptedException e) {
+                Log.e("What?", "surfaceDestroyed: "+e);
             }
         }
     }

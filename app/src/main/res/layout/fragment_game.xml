@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Game"
-    android:background="@color/design_default_color_primary_dark"
     android:id="@+id/base"
     android:orientation="vertical">
 

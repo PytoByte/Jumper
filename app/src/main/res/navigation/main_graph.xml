@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/fragment_preview">
+
+    <fragment
+        android:id="@+id/fragment_preview"
+        android:name="com.example.project.Preview"
+        android:label="Preview" >
+        <action
+            android:id="@+id/action_preview2_to_game"
+            app:destination="@id/game" />
+    </fragment>
+    <fragment
+        android:id="@+id/game"
+        android:name="com.example.project.Game"
+        android:label="fragment_game"
+        tools:layout="@layout/fragment_game" />
+</navigation>

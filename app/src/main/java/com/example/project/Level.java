@@ -1,10 +1,25 @@
 package com.example.project;
 
+import android.content.res.AssetManager;
+import android.util.JsonReader;
+import android.util.Log;
+
 import com.example.project.sprites.Finish;
 import com.example.project.sprites.Player;
+import com.example.project.sprites.Spike;
 import com.example.project.sprites.Sprite;
 import com.example.project.sprites.Wall;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class Level {
@@ -43,6 +58,53 @@ public class Level {
         sprites.add(new Wall(-99, 99, gameCore));
         sprites.add(new Finish(99, 99, gameCore));
     }
+
+    public void loadLevel(String name) throws IOException, JSONException {
+        if (gameCore==null) {
+            throw new RuntimeException("You forgot give gameCore before load level");
+        }
+
+        AssetManager am = gameCore.activity.getAssets();
+        InputStream is = am.open("levels/"+name+".json");
+
+        StringBuilder strJSON = new StringBuilder();
+        int i;
+        while((i=is.read())!=-1){
+            strJSON.append((char) i);
+        }
+
+        JSONArray ja = new JSONArray(strJSON.toString());
+
+        for (int j=0; j<ja.length(); j++) {
+            JSONObject jo = new JSONObject(ja.get(j).toString());
+
+            if (jo.get("tag").equals("Player")) {
+                player = (Player) convert(jo);
+                sprites.add(player);
+            } else {
+                sprites.add(convert(jo));
+            }
+        }
+
+    }
+
+
+    public Sprite convert(JSONObject jo) throws JSONException {
+        Object tag = jo.get("tag");
+
+        if ("Wall".equals(tag)) {
+            return new Wall((float)(int) jo.get("x"), (float)(int) jo.get("y"), gameCore);
+        } else if ("Player".equals(tag)) {
+            return new Player((float)(int) jo.get("x"), (float)(int) jo.get("y"), gameCore);
+        } else if ("Spike".equals(tag)) {
+            return new Spike((float)(int) jo.get("x"), (float)(int) jo.get("y"), gameCore);
+        } else if ("Finish".equals(tag)) {
+            return new Finish((float)(int) jo.get("x"), (float)(int) jo.get("y"), gameCore);
+        }
+
+        throw new UnknownError("No tag in tags list");
+    }
+
 
     public String getName() {
         return name;

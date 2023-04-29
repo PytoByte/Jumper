@@ -1,5 +1,6 @@
 package com.example.project;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
@@ -15,18 +16,19 @@ import java.util.ArrayList;
 public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
 
     private DrawThread drawThread;
-    private final ArrayList<Sprite> sprites = new ArrayList<Sprite>();
-    private final Context context;
+    public Context context;
+    public Activity activity;
 
-    public DrawView(Context context) {
+    public DrawView(Context context, Activity activity) {
         super(context);
         getHolder().addCallback(this);
         this.context = context;
+        this.activity = activity;
     }
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
 
-        drawThread = new DrawThread(getHolder(), sprites, this, context);
+        drawThread = new DrawThread(getHolder(), this);
         drawThread.start();
         // создание SurfaceView
     }

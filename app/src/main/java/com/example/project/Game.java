@@ -23,6 +23,6 @@ public class Game extends Fragment {
 
         binding = FragmentGameBinding.inflate(inflater);
 
-        return new DrawView(getContext());
+        return new DrawView(getContext(), getActivity());
     }
 }

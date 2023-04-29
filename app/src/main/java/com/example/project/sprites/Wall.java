@@ -25,6 +25,7 @@ public class Wall extends Sprite {
     public Wall(float x, float y, GameCore gameCore) {
         pos = new Position(x,y);
         col = new Collider();
+        col.set(pos, 1, 1);
         this.gameCore = gameCore;
     }
 
@@ -64,7 +65,6 @@ public class Wall extends Sprite {
             matrix.setScale( (((float)v/gameCore.camera.scale)/(float)bitmapSource.getWidth()), (((float)v/gameCore.camera.scale)/(float)bitmapSource.getHeight()));
 
             this.bitmap = Bitmap.createBitmap(bitmapSource, 0, 0, bitmapSource.getWidth(), bitmapSource.getHeight(), matrix, false);
-            col.set(pos, 1, 1);
             textureAssigned = true;
         }
     }

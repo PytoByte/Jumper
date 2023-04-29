@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -12,25 +13,25 @@ import com.example.project.sprites.Player;
 import com.example.project.sprites.Sprite;
 import com.example.project.sprites.Wall;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class DrawThread extends Thread {
-    private SurfaceHolder surfaceHolder;
+    private final SurfaceHolder surfaceHolder;
     private volatile boolean running = true; //флаг для остановки потока
-    private Paint backgroundPaint = new Paint();
-    private ArrayList<Sprite> sprites;
-    private GameCore gameCore;
+    private final Paint backgroundPaint = new Paint();
+    private final GameCore gameCore;
 
     {
         backgroundPaint.setColor(Color.BLACK);
         backgroundPaint.setStyle(Paint.Style.FILL);
     }
 
-    public DrawThread(SurfaceHolder surfaceHolder, ArrayList<Sprite> sprites, DrawView dw, Context context) {
+    public DrawThread(SurfaceHolder surfaceHolder, DrawView dw) {
         this.surfaceHolder = surfaceHolder;
-        this.sprites = sprites;
         gameCore = new GameCore();
-        gameCore.setGameContext(context);
         gameCore.setGameView(dw);
     }
     public void requestStop() {
@@ -44,7 +45,13 @@ public class DrawThread extends Thread {
         gameCore.initCamera();
 
         Level level = new Level(gameCore);
-        level.initDefaultLevel();
+
+        try {
+            level.loadLevel("level1");
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
         level.joinToCore();
 
         while (running) {

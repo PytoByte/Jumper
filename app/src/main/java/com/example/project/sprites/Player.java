@@ -25,8 +25,8 @@ public class Player extends Sprite {
 
     boolean inMotion = false;
 
-    private Position prevPos = new Position();
-    private Position stepPos = new Position();
+    private final Position prevPos = new Position();
+    private final Position stepPos = new Position();
 
     private final float velocity = 1.9f;
     private String side = "bottom";
@@ -35,9 +35,12 @@ public class Player extends Sprite {
     private float width = 0;
     private float height = 0;
 
+    private Boolean lose = false;
+
     public Player(float x, float y, GameCore gameCore) {
         pos = new Position(x,y);
         col = new Collider();
+        col.set(pos, 1, 1);
         this.gameCore = gameCore;
 
         gameCore.gameView.setOnTouchListener(new View.OnTouchListener() {
@@ -183,26 +186,43 @@ public class Player extends Sprite {
             this.width = (((float)v/gameCore.camera.scale)/(float)bitmapSource.getWidth());
             this.height = (((float)v/gameCore.camera.scale)/(float)bitmapSource.getHeight());
             matrix.setScale( this.width, this.height);
+            textureAssigned = true;
         } else {
             matrix.setScale( this.width, this.height);
         }
         matrix.postRotate(degr);
 
         this.bitmap = Bitmap.createBitmap(bitmapSource, 0, 0, bitmapSource.getWidth(), bitmapSource.getHeight(), matrix, false);
-        if (!textureAssigned) {
-            col.set(pos, 1, 1);
-            textureAssigned = true;
-        }
     }
 
     @Override
     public void watchCollisions(ArrayList<Sprite> sprites) {
+        ArrayList<Sprite> spikes = new ArrayList<>();
+
         for (Sprite sprite : sprites) {
             if (sprite.col.pos != null && sprite != this) {
                 if (col.checkCollide(sprite.col)) {
+                    if (sprite.tag.equals("Spike")) {
+                        spikes.add(sprite);
+                    }
                     collide(sprite);
                     sprite.collide(this);
                 }
+            }
+        }
+
+        if (lose) {
+            lose = false;
+            for (Sprite sprite : spikes) {
+                if (sprite.col.pos != null && sprite != this) {
+                    if (col.checkCollide(sprite.col)) {
+                        collide(sprite);
+                        sprite.collide(this);
+                    }
+                }
+            }
+            if (lose) {
+                gameCore.lose();
             }
         }
     }
@@ -230,6 +250,8 @@ public class Player extends Sprite {
             stepPos.x = 0;
             stepPos.y = 0;
             Log.i("COLLIDER FOUND", "ok");
+        } else if (sprite.tag.equals("Spike")) {
+            lose = true;
         }
     }
 

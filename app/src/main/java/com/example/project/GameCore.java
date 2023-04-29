@@ -1,5 +1,6 @@
 package com.example.project;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import android.graphics.Paint;
 import android.util.Log;
 import android.view.View;
 
+import com.example.project.sprites.Player;
 import com.example.project.sprites.Sprite;
 
 import java.util.ArrayList;
@@ -18,6 +20,15 @@ public class GameCore {
     public View gameView = null;
     public Canvas canvas = null;
     public Camera camera;
+    public Activity activity;
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     public Level getLevel() {
         return level;
@@ -66,8 +77,10 @@ public class GameCore {
         return gameView;
     }
 
-    public void setGameView(View gameView) {
-        this.gameView = gameView;
+    public void setGameView(DrawView dw) {
+        this.gameContext = dw.context;
+        this.activity = dw.activity;
+        this.gameView = dw;
     }
 
     public Canvas getCanvas() {
@@ -122,6 +135,14 @@ public class GameCore {
         this.meshHeight = v/camera.scale;
 
         //System.out.println("MESH = width:"+this.meshWidth+" height:"+this.meshHeight);
+    }
+
+    public void lose() {
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setTextSize(100);
+        paint.setFakeBoldText(true);
+        canvas.drawText("YOU DEAD", canvas.getWidth()/2-20, canvas.getHeight()/2, paint);
     }
 
     public void clearGame() {

@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.sprites.extensions;
 
 public class Position {
     public float x;

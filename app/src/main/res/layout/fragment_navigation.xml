@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navigationFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="horizontal"
+    tools:context=".UI.fragments.NavigationFragment"
+    android:background="@color/black">
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/map"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/transparent"
+        />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/arcade"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/transparent"
+        />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/competition"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/transparent"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/versus"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/transparent"
+        />
+
+
+</LinearLayout>

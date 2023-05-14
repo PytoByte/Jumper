@@ -9,14 +9,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.project.Camera;
-import com.example.project.Collider;
-import com.example.project.GameCore;
-import com.example.project.Position;
+import com.example.project.game.Camera;
+import com.example.project.sprites.extensions.Collider;
+import com.example.project.game.GameCore;
+import com.example.project.sprites.extensions.Position;
 import com.example.project.R;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Player extends Sprite {
     {
@@ -43,7 +42,7 @@ public class Player extends Sprite {
         col.set(pos, 1, 1);
         this.gameCore = gameCore;
 
-        gameCore.gameView.setOnTouchListener(new View.OnTouchListener() {
+        gameCore.fragment.getView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (!inMotion) {

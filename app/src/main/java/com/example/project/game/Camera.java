@@ -1,8 +1,9 @@
-package com.example.project;
+package com.example.project.game;
 
 import android.graphics.Canvas;
 
 import com.example.project.sprites.Sprite;
+import com.example.project.sprites.extensions.Position;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class Camera {
             this.canvas = gameCore.canvas;
             width = canvas.getWidth();
             height = canvas.getHeight();
-            lockPos = new Position((int)(width/2), (int)(height/2));
+            lockPos = new Position(width/2, height/2);
         }
     }
 
@@ -36,10 +37,10 @@ public class Camera {
         this.canvas = canvas;
         width = canvas.getWidth();
         height = canvas.getHeight();
-        lockPos = new Position((int)(width/2), (int)(height/2));
+        lockPos = new Position(width/2, height/2);
     }
 
-    Camera() {}
+    public Camera() {}
 
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
@@ -56,7 +57,7 @@ public class Camera {
 
     public void updateLockedPosition() {
         Position newPos = toCanvasPos(lockPos);
-        pos.set(newPos.x-(int)(width/2)+pos.x, newPos.y-(int)(height/2)+pos.y);
+        pos.set(newPos.x- (width/2) +pos.x, newPos.y- (height/2) +pos.y);
     }
 
     public Position toCanvasPos(Position position) {
@@ -72,7 +73,7 @@ public class Camera {
     }
 
     public void draw() {
-        for (Sprite sprite : gameCore.level.sprites) {
+        for (Sprite sprite : gameCore.levelLoader.sprites) {
             updateLockedPosition();
             Position canvPos = toCanvasPos(sprite.pos);
             if (!(canvPos.x<0 || canvPos.y<0 || canvPos.x>width || canvPos.y>height)) {

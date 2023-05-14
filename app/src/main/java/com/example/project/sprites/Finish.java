@@ -1,17 +1,16 @@
 package com.example.project.sprites;
 
-import android.content.Context;
+import static java.lang.Thread.currentThread;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.widget.Toast;
 
-import com.example.project.Camera;
-import com.example.project.Collider;
-import com.example.project.GameCore;
-import com.example.project.Position;
+import com.example.project.sprites.extensions.Collider;
+import com.example.project.game.GameCore;
+import com.example.project.sprites.extensions.Position;
 import com.example.project.R;
 
 import java.util.ArrayList;
@@ -69,6 +68,7 @@ public class Finish extends Sprite {
             paint.setTextSize(100);
             paint.setFakeBoldText(true);
             gameCore.canvas.drawText("YOU WON", gameCore.canvas.getWidth()/2-20, gameCore.canvas.getHeight()/2, paint);
+            gameCore.win();
         }
     }
 

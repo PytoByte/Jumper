@@ -1,34 +1,34 @@
-package com.example.project;
+package com.example.project.game.draw;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Canvas;
+import android.os.Looper;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.project.sprites.Player;
-import com.example.project.sprites.Sprite;
-import com.example.project.sprites.Wall;
+import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
 
-    private DrawThread drawThread;
+    public DrawThread drawThread;
     public Context context;
-    public Activity activity;
+    public Fragment fragment;
+    public SurfaceHolder surfaceHolder;
 
-    public DrawView(Context context, Activity activity) {
+    public DrawView(SurfaceHolder surfaceHolder, Context context, Fragment fragment) {
         super(context);
-        getHolder().addCallback(this);
+        this.surfaceHolder = surfaceHolder;
+        surfaceHolder.addCallback(this);
         this.context = context;
-        this.activity = activity;
+        this.fragment = fragment;
     }
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-
-        drawThread = new DrawThread(getHolder(), this);
+        drawThread = new DrawThread(holder, this);
         drawThread.start();
         // создание SurfaceView
     }
@@ -38,6 +38,7 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
     }
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.e("wdffw", "surfaceDestroyed: hello?");
         drawThread.requestStop();
         boolean retry = true;
         while (retry) {

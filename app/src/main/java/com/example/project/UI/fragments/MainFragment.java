@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.UI.fragments;
 
 import android.os.Bundle;
 
@@ -9,20 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.project.databinding.FragmentGameBinding;
+import com.example.project.R;
+import com.example.project.databinding.FragmentMainBinding;
 
-import java.util.Objects;
+public class MainFragment extends Fragment {
 
-public class Game extends Fragment {
-
-    FragmentGameBinding binding;
+    FragmentMainBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentGameBinding.inflate(inflater);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        binding = FragmentMainBinding.bind(view);
 
-        return new DrawView(getContext(), getActivity());
+        return view;
     }
 }

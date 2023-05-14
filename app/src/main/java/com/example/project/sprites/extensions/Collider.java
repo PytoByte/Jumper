@@ -1,6 +1,4 @@
-package com.example.project;
-
-import android.util.Log;
+package com.example.project.sprites.extensions;
 
 public class Collider {
     public Position pos;
@@ -27,9 +25,9 @@ public class Collider {
 
     public boolean checkCollide(Collider col) {
         Boolean nw = (col.pos.x >= pos.x) && (col.pos.x < pos.x + width) && (col.pos.y >= pos.y) && (col.pos.y < pos.y + height);
-        Boolean ne =(col.pos.x+col.width > pos.x) && (col.pos.x+col.width < pos.x + width) && (col.pos.y >= pos.y) && (col.pos.y < pos.y + height);
-        Boolean sw =(col.pos.x >= pos.x) && (col.pos.x < pos.x + width) && (col.pos.y+col.width > pos.y) && (col.pos.y+col.width < pos.y + height);
-        Boolean se =(col.pos.x+col.width > pos.x) && (col.pos.x+col.width < pos.x + width) && (col.pos.y+col.width > pos.y) && (col.pos.y+col.width < pos.y + height);
+        Boolean ne = (col.pos.x+col.width > pos.x) && (col.pos.x+col.width < pos.x + width) && (col.pos.y >= pos.y) && (col.pos.y < pos.y + height);
+        Boolean sw = (col.pos.x >= pos.x) && (col.pos.x < pos.x + width) && (col.pos.y+col.width > pos.y) && (col.pos.y+col.width < pos.y + height);
+        Boolean se = (col.pos.x+col.width > pos.x) && (col.pos.x+col.width < pos.x + width) && (col.pos.y+col.width > pos.y) && (col.pos.y+col.width < pos.y + height);
 
         return (nw || ne || sw || se);
     }

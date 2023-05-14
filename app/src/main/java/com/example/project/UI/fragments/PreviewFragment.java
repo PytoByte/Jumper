@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.UI.fragments;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
@@ -10,23 +10,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
+import com.example.project.UI.activities.MainActivity;
+import com.example.project.R;
 import com.example.project.databinding.FragmentPreviewBinding;
 
-public class Preview extends Fragment {
+public class PreviewFragment extends Fragment {
     FragmentPreviewBinding binding;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -37,15 +27,11 @@ public class Preview extends Fragment {
         binding.play.setOnClickListener(v -> startGame());
 
         return view;
-
-        //return inflater.inflate(R.layout.fragment_preview, container, false);
-
-        //return inflater.inflate(R.layout.fragment_preview, container, false);
     }
 
     private void startGame() {
         if (requireActivity() instanceof MainActivity) {
-            findNavController(this).navigate(R.id.action_preview2_to_game);
+            findNavController(this).navigate(R.id.action_fragment_preview_to_mainFragment);
         }
     }
 }

@@ -1,9 +1,9 @@
 package com.example.project.sprites;
 
 import android.graphics.Bitmap;
-import com.example.project.Collider;
-import com.example.project.GameCore;
-import com.example.project.Position;
+import com.example.project.sprites.extensions.Collider;
+import com.example.project.game.GameCore;
+import com.example.project.sprites.extensions.Position;
 
 import java.util.ArrayList;
 

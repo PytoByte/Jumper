@@ -1,26 +1,35 @@
-package com.example.project;
+package com.example.project.game;
+
+import static androidx.navigation.fragment.FragmentKt.findNavController;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 
-import com.example.project.sprites.Player;
+import androidx.fragment.app.Fragment;
+
+import com.example.project.R;
+import com.example.project.UI.activities.MainActivity;
+import com.example.project.UI.fragments.dialog.DialogLose;
+import com.example.project.UI.fragments.dialog.DialogWin;
+import com.example.project.databinding.FragmentGameUiBinding;
+import com.example.project.game.draw.DrawView;
 import com.example.project.sprites.Sprite;
+import com.example.project.sprites.extensions.Position;
 
 import java.util.ArrayList;
 
 public class GameCore {
     public Context gameContext = null;
-    public View gameView = null;
+    public DrawView gameView = null;
     public Canvas canvas = null;
     public Camera camera;
     public Activity activity;
+    public Fragment fragment;
+    public boolean extraShutdown = false;
 
     public Activity getActivity() {
         return activity;
@@ -30,16 +39,16 @@ public class GameCore {
         this.activity = activity;
     }
 
-    public Level getLevel() {
-        return level;
+    public LevelLoader getLevel() {
+        return levelLoader;
     }
 
-    public void setLevel(Level level) {
-        this.level = level;
-        camera.setLockPos(level.player.pos);
+    public void setLevel(LevelLoader levelLoader) {
+        this.levelLoader = levelLoader;
+        camera.setLockPos(levelLoader.player.pos);
     }
 
-    public Level level;
+    public LevelLoader levelLoader;
 
     public int meshWidth;
     public int meshHeight;
@@ -58,11 +67,11 @@ public class GameCore {
     }
 
     public ArrayList<Sprite> getSprites() {
-        return level.sprites;
+        return levelLoader.sprites;
     }
 
     public void setSprites(ArrayList<Sprite> sprites) {
-        level.sprites = sprites;
+        levelLoader.sprites = sprites;
     }
 
     public Context getGameContext() {
@@ -79,7 +88,8 @@ public class GameCore {
 
     public void setGameView(DrawView dw) {
         this.gameContext = dw.context;
-        this.activity = dw.activity;
+        this.activity = dw.fragment.getActivity();
+        this.fragment = dw.fragment;
         this.gameView = dw;
     }
 
@@ -102,13 +112,13 @@ public class GameCore {
 
     private void calcCollisions(ArrayList<Sprite> drawableSprites) {
         for (Sprite sprite : drawableSprites) {
-            sprite.watchCollisions(level.sprites);
+            sprite.watchCollisions(levelLoader.sprites);
         }
     }
 
     private ArrayList<Sprite> calcActions() {
         ArrayList<Sprite> drawableSprites = new ArrayList<>();
-        for (Sprite sprite : level.sprites) {
+        for (Sprite sprite : levelLoader.sprites) {
             Position canvPos = camera.toCanvasPos(sprite.pos);
 
             sprite.action();
@@ -143,6 +153,19 @@ public class GameCore {
         paint.setTextSize(100);
         paint.setFakeBoldText(true);
         canvas.drawText("YOU DEAD", canvas.getWidth()/2-20, canvas.getHeight()/2, paint);
+        if (activity instanceof MainActivity) {
+            extraShutdown = true;
+            DialogLose dialoglose = new DialogLose(gameView, fragment);
+            dialoglose.show(fragment.getParentFragmentManager(), "win");
+        }
+    }
+
+    public void win() {
+        if (activity instanceof MainActivity) {
+            extraShutdown = true;
+            DialogWin dialogWin = new DialogWin(gameView, fragment);
+            dialogWin.show(fragment.getParentFragmentManager(), "win");
+        }
     }
 
     public void clearGame() {

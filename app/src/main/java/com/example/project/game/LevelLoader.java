@@ -1,8 +1,9 @@
-package com.example.project;
+package com.example.project.game;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.util.JsonReader;
-import android.util.Log;
 
 import com.example.project.sprites.Finish;
 import com.example.project.sprites.Player;
@@ -14,23 +15,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class Level {
+public class LevelLoader {
     public String name;
     public ArrayList<Sprite> sprites = new ArrayList<>();
     public Player player;
     public GameCore gameCore;
 
-    public Level() {}
+    public LevelLoader() {}
 
-    public Level(GameCore gameCore) {
+    public LevelLoader(GameCore gameCore) {
         this.gameCore = gameCore;
     }
 
@@ -136,5 +133,12 @@ public class Level {
 
     public void setGameCore(GameCore gameCore) {
         this.gameCore = gameCore;
+    }
+
+    public void loadFromPreference() throws JSONException, IOException {
+        SharedPreferences sharedPreferences = gameCore.activity.getSharedPreferences("level", MODE_PRIVATE);
+        String levelName = sharedPreferences.getString("name", null);
+
+        loadLevel(levelName);
     }
 }

@@ -1,16 +1,13 @@
 package com.example.project.sprites;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 
-import com.example.project.Camera;
-import com.example.project.Collider;
-import com.example.project.GameCore;
-import com.example.project.Position;
+import com.example.project.sprites.extensions.Collider;
+import com.example.project.game.GameCore;
+import com.example.project.sprites.extensions.Position;
 import com.example.project.R;
 
 import java.util.ArrayList;

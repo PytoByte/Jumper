@@ -7,15 +7,27 @@
 
     <fragment
         android:id="@+id/fragment_preview"
-        android:name="com.example.project.Preview"
+        android:name="com.example.project.UI.fragments.PreviewFragment"
         android:label="Preview" >
         <action
-            android:id="@+id/action_preview2_to_game"
-            app:destination="@id/game" />
+            android:id="@+id/action_fragment_preview_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
-        android:id="@+id/game"
-        android:name="com.example.project.Game"
-        android:label="fragment_game"
-        tools:layout="@layout/fragment_game" />
+        android:id="@+id/mainFragment"
+        android:name="com.example.project.UI.fragments.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_gameUIFragment"
+            app:destination="@id/gameUIFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameUIFragment"
+        android:name="com.example.project.UI.fragments.GameUIFragment"
+        android:label="fragment_game_ui"
+        tools:layout="@layout/fragment_game_ui" >
+        <action
+            android:id="@+id/action_gameUIFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

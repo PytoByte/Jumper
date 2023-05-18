@@ -51,7 +51,7 @@ public class Finish extends Sprite {
             Matrix matrix = new Matrix();
 
             matrix.setScale( (((float)v/gameCore.camera.scale)/(float)bitmapSource.getWidth()), (((float)v/gameCore.camera.scale)/(float)bitmapSource.getHeight()));
-
+            matrix.postRotate(rotate);
             this.bitmap = Bitmap.createBitmap(bitmapSource, 0, 0, bitmapSource.getWidth(), bitmapSource.getHeight(), matrix, false);
             textureAssigned = true;
         }

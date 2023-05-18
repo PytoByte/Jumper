@@ -74,6 +74,8 @@ public class DrawThread extends Thread {
             startTimer();
         }
 
+        gameCore.startGame();
+
         while (running && !gameCore.extraShutdown) {
             canvas = surfaceHolder.lockCanvas();
             if (checkTimerRestart()) {
@@ -86,10 +88,9 @@ public class DrawThread extends Thread {
                     if (FPSLimit>0) {
                         frames++;
                     }
-
-                    System.out.println("draw");
                 } catch (Throwable er) {
-                    Log.e("ERROR WHILE DRAWING", "run: " + er);
+                    throw er;
+                    //Log.e("ERROR WHILE DRAWING", "run: " + er);
                 }
                 finally {
                     surfaceHolder.unlockCanvasAndPost(canvas);

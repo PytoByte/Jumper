@@ -27,12 +27,14 @@ public class Player extends Sprite {
     private final Position prevPos = new Position();
     private final Position stepPos = new Position();
 
-    private final float velocity = 1.9f;
-    private String side = "bottom";
+    private final float velocity = 1.1f;
+    private final long deltaTime = (long)(0.02f*1_000_000_000L);
 
     private boolean textureAssigned = false;
     private float width = 0;
     private float height = 0;
+
+    private long timeBefore = 0;
 
     private Boolean lose = false;
 
@@ -41,7 +43,22 @@ public class Player extends Sprite {
         col = new Collider();
         col.set(pos, 1, 1);
         this.gameCore = gameCore;
+        rotate=0;
+        timeBefore = System.nanoTime();
+        createMovement();
+    }
 
+    public Player(float x, float y, int rotate, GameCore gameCore) {
+        pos = new Position(x,y);
+        col = new Collider();
+        col.set(pos, 1, 1);
+        this.gameCore = gameCore;
+        this.rotate = rotate;
+        timeBefore = System.nanoTime();
+        createMovement();
+    }
+
+    private void createMovement() {
         gameCore.fragment.getView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -115,18 +132,18 @@ public class Player extends Sprite {
             if (Math.abs(deltaX)>Math.abs(deltaY)) {
                 if (deltaX>0) {
                     stepPos.x = -velocity;
-                    side="left";
+                    rotate=90;
                 } else if (deltaX<0) {
                     stepPos.x = velocity;
-                    side="right";
+                    rotate=270;
                 }
             } else {
                 if (deltaY>0) {
                     stepPos.y = -velocity;
-                    side="top";
+                    rotate=180;
                 } else if (deltaY<0) {
                     stepPos.y = velocity;
-                    side="bottom";
+                    rotate=0;
                 }
             }
 
@@ -164,22 +181,6 @@ public class Player extends Sprite {
         int v = Math.min(width, height);
 
         Matrix matrix = new Matrix();
-        int degr = 0;
-
-        switch (side) {
-            case "bottom":
-                degr=0;
-                break;
-            case "left":
-                degr = 90;
-                break;
-            case "right":
-                degr = 270;
-                break;
-            case "top":
-                degr = 180;
-                break;
-        }
 
         if (!textureAssigned) {
             this.width = (((float)v/gameCore.camera.scale)/(float)bitmapSource.getWidth());
@@ -189,7 +190,7 @@ public class Player extends Sprite {
         } else {
             matrix.setScale( this.width, this.height);
         }
-        matrix.postRotate(degr);
+        matrix.postRotate(rotate);
 
         this.bitmap = Bitmap.createBitmap(bitmapSource, 0, 0, bitmapSource.getWidth(), bitmapSource.getHeight(), matrix, false);
     }
@@ -228,26 +229,25 @@ public class Player extends Sprite {
 
     public void collide(Sprite sprite) {
         if (sprite.tag.equals("Wall")) {
+            stepPos.x = 0;
+            stepPos.y = 0;
 
             System.out.println("PL POS: "+pos);
             System.out.println("WALL POS: "+sprite.pos);
 
-            if (side.equals("bottom")) {
+            if (rotate==0) {
                 pos.y = sprite.pos.y-col.height;
             }
-            else if (side.equals("top")) {
+            else if (rotate==180) {
                 pos.y = sprite.pos.y+col.height;
             }
-            else if (side.equals("right")) {
+            else if (rotate==270) {
                 pos.x = sprite.pos.x-col.width;
             }
-            else if (side.equals("left")) {
+            else if (rotate==90) {
                 pos.x = sprite.pos.x+col.width;
             }
-
             inMotion = false;
-            stepPos.x = 0;
-            stepPos.y = 0;
             Log.i("COLLIDER FOUND", "ok");
         } else if (sprite.tag.equals("Spike")) {
             lose = true;
@@ -256,8 +256,9 @@ public class Player extends Sprite {
 
     @Override
     public void action() {
-        pos.x = pos.x + stepPos.x;
-        pos.y = pos.y + stepPos.y;
+        pos.x = pos.x + stepPos.x*(System.nanoTime()-timeBefore)/deltaTime;
+        pos.y = pos.y + stepPos.y*(System.nanoTime()-timeBefore)/deltaTime;
+        timeBefore = System.nanoTime();
     }
 
     @Override

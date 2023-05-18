@@ -10,7 +10,7 @@
     android:background="@color/black">
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/levels"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:src="@drawable/map"
@@ -20,7 +20,7 @@
         />
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/arcade"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:src="@drawable/arcade"
@@ -30,7 +30,7 @@
         />
 
     <ImageButton
-        android:id="@+id/imageButton5"
+        android:id="@+id/speedrun"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:src="@drawable/competition"
@@ -40,6 +40,7 @@
         />
 
     <ImageButton
+        android:id="@+id/fight"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:src="@drawable/versus"

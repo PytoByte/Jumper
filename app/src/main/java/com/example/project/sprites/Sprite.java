@@ -13,6 +13,7 @@ public abstract class Sprite {
     public Collider col;
     Bitmap bitmap;
     public GameCore gameCore;
+    public int rotate;
 
     public abstract void draw(Position canvPos);
 

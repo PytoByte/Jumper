@@ -45,6 +45,7 @@ public class LevelAdapter  extends RecyclerView.Adapter<LevelAdapter.ViewHolder>
                 SharedPreferences sharedPreferences = fragment.getActivity().getSharedPreferences("level", MODE_PRIVATE);
                 SharedPreferences.Editor prefEditor = sharedPreferences.edit();
                 prefEditor.putString("name", level.getName());
+                prefEditor.putString("mode", "company");
                 prefEditor.apply();
                 startGame();
             }

@@ -1,9 +1,11 @@
 package com.example.project.game;
 
+import static android.content.Context.MODE_PRIVATE;
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,7 +21,11 @@ import com.example.project.databinding.FragmentGameUiBinding;
 import com.example.project.game.draw.DrawView;
 import com.example.project.sprites.Sprite;
 import com.example.project.sprites.extensions.Position;
+import com.example.project.sprites.extensions.SpriteWorking;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameCore {
@@ -30,6 +36,7 @@ public class GameCore {
     public Activity activity;
     public Fragment fragment;
     public boolean extraShutdown = false;
+    public String mode;
 
     public Activity getActivity() {
         return activity;
@@ -110,6 +117,17 @@ public class GameCore {
         camera.draw(drawableSprites);
     }
 
+    public void startGame() {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("points", MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+        prefEditor.putInt("count", 0);
+        prefEditor.apply();
+
+        sharedPreferences = activity.getSharedPreferences("level", MODE_PRIVATE);
+        sharedPreferences.getString("mode", "");
+        mode = sharedPreferences.getString("mode", null);
+    }
+
     private void calcCollisions(ArrayList<Sprite> drawableSprites) {
         for (Sprite sprite : drawableSprites) {
             sprite.watchCollisions(levelLoader.sprites);
@@ -125,6 +143,16 @@ public class GameCore {
 
             if (!(canvPos.x<-camera.border || canvPos.y<-camera.border || canvPos.x>camera.width+camera.border || canvPos.y>camera.height+camera.border)) {
                 drawableSprites.add(sprite);
+            }
+        }
+        if (mode.equals("arcade")) {
+            float maxY = levelLoader.findMaxY(getSprites());
+            if (camera.toCanvasY(maxY)>-camera.border) {
+                try {
+                    levelLoader.loadPartLevel(getSprites());
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return drawableSprites;

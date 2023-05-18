@@ -14,7 +14,7 @@ public class Camera {
     public int height = 0;
     public int scale = 12;
     public GameCore gameCore;
-    public final int border = 200;
+    public final int border = 10;
 
     public GameCore getGameCore() {
         return gameCore;

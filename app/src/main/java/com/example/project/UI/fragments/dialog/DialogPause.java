@@ -44,6 +44,7 @@ public class DialogPause extends DialogFragment {
     }
 
     public void restart() {
+        drawView.drawThread.requestStop();
         FragmentManager fm = fragment.getParentFragmentManager();
         fm.beginTransaction()
                 .detach(fragment)

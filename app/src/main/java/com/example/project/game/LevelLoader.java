@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.project.sprites.Finish;
 import com.example.project.sprites.Player;
+import com.example.project.sprites.Point;
 import com.example.project.sprites.Spike;
 import com.example.project.sprites.Sprite;
 import com.example.project.sprites.Wall;
@@ -125,7 +126,7 @@ public class LevelLoader {
 
         float maxY1 = findMaxY(levelObjects);
         float maxY2 = findMaxY(spritesNew);
-        float dy = maxY2-maxY1;
+        float dy = maxY1-maxY2;
         float height = findHeight(spritesNew);
 
         for (Sprite sprite : spritesNew) {
@@ -160,14 +161,6 @@ public class LevelLoader {
                 sprites.add(player);
             } else {
                 sprites.add(convert(jo));
-            }
-        }
-    }
-
-    public void deleteUntil(float y, ArrayList<Sprite> levelObjects) {
-        for (int i=0; i<levelObjects.size(); i++) {
-            if (levelObjects.get(i).pos.y>=y) {
-                levelObjects.remove(i);
             }
         }
     }
@@ -207,6 +200,21 @@ public class LevelLoader {
             }
         }
         return maxY;
+    }
+
+    public float findMinY(ArrayList<Sprite> levelObjects) {
+        boolean first = true;
+        float minY = 0;
+        for (Sprite o : levelObjects) {
+            if (first) {
+                minY = o.pos.y;
+                first = false;
+            }
+            else if (minY<o.pos.y) {
+                minY = o.pos.y;
+            }
+        }
+        return minY;
     }
 
     public float findWidth(ArrayList<Sprite> levelObjects) {
@@ -252,7 +260,11 @@ public class LevelLoader {
             Finish finish = new Finish((float) jo.getInt("x"), (float) jo.getInt("y"), gameCore);
             finish.rotate = jo.getInt("r");
             return finish;
+        } else if ("Point".equals(tag)) {
+            Point point = new Point((float) jo.getInt("x"), (float) jo.getInt("y"), gameCore);
+            return point;
         }
+
 
         throw new UnknownError("No tag in tags list");
     }

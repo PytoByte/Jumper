@@ -1,7 +1,9 @@
 package com.example.project.UI.fragments.dialog;
 
+import static android.content.Context.MODE_PRIVATE;
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -37,6 +39,9 @@ public class DialogLose extends DialogFragment {
 
         binding.continueButton.setOnClickListener(v -> restart());
         binding.exitButton.setOnClickListener(v -> toMainFragment());
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("points", MODE_PRIVATE);
+        binding.score.setText("Счёт: "+sharedPreferences.getInt("count", 0));
 
         return view;
     }

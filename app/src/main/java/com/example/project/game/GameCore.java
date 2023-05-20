@@ -22,6 +22,7 @@ import com.example.project.game.draw.DrawView;
 import com.example.project.sprites.Sprite;
 import com.example.project.sprites.extensions.Position;
 import com.example.project.sprites.extensions.SpriteWorking;
+import com.example.project.sprites.living_event.DeadZone;
 
 import org.json.JSONException;
 
@@ -37,6 +38,8 @@ public class GameCore {
     public Fragment fragment;
     public boolean extraShutdown = false;
     public String mode;
+    public DeadZone deadZone;
+    private final int arcadeDistance = 100;
 
     public Activity getActivity() {
         return activity;
@@ -112,9 +115,16 @@ public class GameCore {
     public void drawFrame() {
         createMesh();
         drawBackgroung();
+        if (mode.equals("arcade")) {
+            deadZone.move();
+        }
         ArrayList<Sprite> drawableSprites = calcActions();
         calcCollisions(drawableSprites);
         camera.draw(drawableSprites);
+
+        if (mode.equals("arcade")) {
+            deadZone.draw();
+        }
     }
 
     public void startGame() {
@@ -126,6 +136,11 @@ public class GameCore {
         sharedPreferences = activity.getSharedPreferences("level", MODE_PRIVATE);
         sharedPreferences.getString("mode", "");
         mode = sharedPreferences.getString("mode", null);
+
+        if (mode.equals("arcade")) {
+            deadZone = new DeadZone(this);
+            deadZone.pos = new Position(0, (camera.pos.y+camera.height)/meshHeight);
+        }
     }
 
     private void calcCollisions(ArrayList<Sprite> drawableSprites) {
@@ -135,19 +150,45 @@ public class GameCore {
     }
 
     private ArrayList<Sprite> calcActions() {
+        boolean makeStepBack = false;
         ArrayList<Sprite> drawableSprites = new ArrayList<>();
-        for (Sprite sprite : levelLoader.sprites) {
+        for (Sprite sprite : (ArrayList<Sprite>) getSprites().clone()) {
             Position canvPos = camera.toCanvasPos(sprite.pos);
 
             sprite.action();
+
+            if (mode.equals("arcade")) {
+                if (sprite.pos.y+sprite.col.height>deadZone.pos.y && sprite.tag.equals("Player")) {
+                    lose();
+                    break;
+                }
+                else if (sprite.pos.y>deadZone.pos.y) {
+                    makeStepBack = true;
+                    getSprites().remove(sprite);
+                    continue;
+                }
+            }
 
             if (!(canvPos.x<-camera.border || canvPos.y<-camera.border || canvPos.x>camera.width+camera.border || canvPos.y>camera.height+camera.border)) {
                 drawableSprites.add(sprite);
             }
         }
+
+        if (makeStepBack) {
+            deadZone.pos.y++;
+            for (Sprite sprite : getSprites()) {
+                sprite.pos.y++;
+            }
+        }
+
         if (mode.equals("arcade")) {
+            System.out.println();
+            if (camera.toCanvasY(deadZone.pos.y)>camera.height+camera.border) {
+                deadZone.pos.y = (camera.pos.y+camera.height)/meshHeight;
+            }
+
             float maxY = levelLoader.findMaxY(getSprites());
-            if (camera.toCanvasY(maxY)>-camera.border) {
+            if (maxY>-arcadeDistance) {
                 try {
                     levelLoader.loadPartLevel(getSprites());
                 } catch (IOException | JSONException e) {

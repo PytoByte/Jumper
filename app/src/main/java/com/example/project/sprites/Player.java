@@ -199,7 +199,7 @@ public class Player extends Sprite {
     public void watchCollisions(ArrayList<Sprite> sprites) {
         ArrayList<Sprite> spikes = new ArrayList<>();
 
-        for (Sprite sprite : sprites) {
+        for (Sprite sprite : (ArrayList<Sprite>) sprites.clone()) {
             if (sprite.col.pos != null && sprite != this) {
                 if (col.checkCollide(sprite.col)) {
                     if (sprite.tag.equals("Spike")) {

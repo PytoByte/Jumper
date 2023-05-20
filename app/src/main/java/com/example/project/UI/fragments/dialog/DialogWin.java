@@ -54,6 +54,9 @@ public class DialogWin extends DialogFragment {
         binding.restartButton.setOnClickListener(v -> restart());
         binding.exitButton.setOnClickListener(v -> toMainFragment());
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("points", MODE_PRIVATE);
+        binding.score.setText("Счёт: "+sharedPreferences.getInt("count", 0));
+
         return view;
     }
 

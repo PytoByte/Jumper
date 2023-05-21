@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         if (!sp.getBoolean(String.valueOf(BitmapBank.PLAYER_0), true)) {
             SharedPreferences.Editor ep = sp.edit();
             ep.putInt("active", BitmapBank.PLAYER_0);
-            ep.putBoolean(String.valueOf(BitmapBank.PLAYER_0), true);
             ep.apply();
         }
 

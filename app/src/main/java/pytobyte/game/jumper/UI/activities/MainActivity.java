@@ -30,18 +30,15 @@ public class MainActivity extends AppCompatActivity {
 
         Window window = getWindow();
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        SharedPreferences sp = getSharedPreferences("shop", Context.MODE_PRIVATE);
-        if (!sp.getBoolean(String.valueOf(BitmapBank.PLAYER_0), true)) {
-            SharedPreferences.Editor ep = sp.edit();
-            ep.putInt("active", BitmapBank.PLAYER_0);
-            ep.apply();
-        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
         try {
             DBWorking dbw = new DBWorking();
             dbw.fillDB(getApplicationContext());
+            SharedPreferences sp = getSharedPreferences("shop", Context.MODE_PRIVATE);
+            SharedPreferences.Editor ep = sp.edit();
+            ep.putInt("active", BitmapBank.PLAYER_0);
+            ep.apply();
         } catch (Exception er) {}
 
     }

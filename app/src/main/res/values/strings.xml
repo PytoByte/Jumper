@@ -1,5 +1,20 @@
 <resources>
-    <string name="app_name">Project</string>
+    <string name="app_name">Jumper</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_arcade">Хотите войти в аркаду?</string>
+    <string name="play">Играть</string>
+    <string name="lose">Поражение</string>
+    <string name="default_score">Счёт: 0</string>
+    <string name="restart">Начать заново</string>
+    <string name="toMainFragment">В главное меню</string>
+    <string name="menu">Меню</string>
+    <string name="resume">Продолжить</string>
+    <string name="shop">Магазин</string>
+    <string name="close">Закрыть</string>
+    <string name="win">Победа</string>
+    <string name="next_level">Следующий уровень</string>
+    <string name="default_number">1</string>
+    <string name="default_money">100</string>
+    <string name="game_name">Jumper</string>
 </resources>

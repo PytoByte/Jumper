@@ -5,6 +5,7 @@ import static androidx.navigation.fragment.FragmentKt.findNavController;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +15,22 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
+import com.example.project.UI.Sounds;
 import com.example.project.UI.activities.MainActivity;
 
 import java.util.List;
 
-public class LevelAdapter  extends RecyclerView.Adapter<LevelAdapter.ViewHolder>{
+public class LevelAdapter  extends RecyclerView.Adapter<LevelAdapter.ViewHolder> implements Sounds {
     private final LayoutInflater inflater;
     private final List<Level> levels;
     private final Fragment fragment;
+    MediaPlayer mPlayer;
 
     public LevelAdapter(Context context, List<Level> levels, Fragment fragment) {
         this.levels = levels;
         this.inflater = LayoutInflater.from(context);
         this.fragment = fragment;
+        mPlayer = initSound(fragment.getActivity(), R.raw.button_sound);
     }
 
     @Override
@@ -48,6 +52,8 @@ public class LevelAdapter  extends RecyclerView.Adapter<LevelAdapter.ViewHolder>
                 prefEditor.putString("mode", "company");
                 prefEditor.apply();
                 startGame();
+
+                playSound(mPlayer);
             }
         });
     }
@@ -56,6 +62,7 @@ public class LevelAdapter  extends RecyclerView.Adapter<LevelAdapter.ViewHolder>
     public int getItemCount() {
         return levels.size();
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView name;
         ViewHolder(View view){

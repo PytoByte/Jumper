@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UI.fragments.LevelsFragment">
+    tools:context=".UI.fragments.LevelsFragment"
+    android:background="@color/black">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_gravity="center_vertical"

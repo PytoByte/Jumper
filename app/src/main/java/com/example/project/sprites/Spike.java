@@ -37,7 +37,7 @@ public class Spike extends Sprite {
 
     @Override
     protected void assignTexture() {
-        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.sample_spikes);
+        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), SPIKE_0);
 
         int width = gameCore.canvas.getWidth();
         int height = gameCore.canvas.getHeight();

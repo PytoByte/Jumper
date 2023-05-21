@@ -9,16 +9,19 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.project.R;
+import com.example.project.UI.Sounds;
 import com.example.project.UI.activities.MainActivity;
 import com.example.project.UI.fragments.dialog.DialogLose;
 import com.example.project.UI.fragments.dialog.DialogWin;
 import com.example.project.databinding.FragmentGameUiBinding;
 import com.example.project.game.draw.DrawView;
+import com.example.project.sprites.Player;
 import com.example.project.sprites.Sprite;
 import com.example.project.sprites.extensions.Position;
 import com.example.project.sprites.extensions.SpriteWorking;
@@ -29,7 +32,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GameCore {
+public class GameCore implements Sounds {
     public Context gameContext = null;
     public DrawView gameView = null;
     public Canvas canvas = null;
@@ -39,7 +42,8 @@ public class GameCore {
     public boolean extraShutdown = false;
     public String mode;
     public DeadZone deadZone;
-    private final int arcadeDistance = 100;
+    private final int arcadeDistance = 20;
+    public boolean pause = false;
 
     public Activity getActivity() {
         return activity;
@@ -127,6 +131,18 @@ public class GameCore {
         }
     }
 
+    public void resumeEvent() {
+        if (mode.equals("arcade")) {
+            deadZone.resume();
+        }
+        for (Sprite sprite : getSprites()) {
+            if (sprite.tag.equals("Player")) {
+                ((Player) sprite).resume();
+                break;
+            }
+        }
+    }
+
     public void startGame() {
         SharedPreferences sharedPreferences = activity.getSharedPreferences("points", MODE_PRIVATE);
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
@@ -178,11 +194,13 @@ public class GameCore {
             deadZone.pos.y++;
             for (Sprite sprite : getSprites()) {
                 sprite.pos.y++;
+                if (sprite.tag.equals("Player")) {
+                    ((Player)sprite).expectingPosition.y++;
+                }
             }
         }
 
         if (mode.equals("arcade")) {
-            System.out.println();
             if (camera.toCanvasY(deadZone.pos.y)>camera.height+camera.border) {
                 deadZone.pos.y = (camera.pos.y+camera.height)/meshHeight;
             }
@@ -212,29 +230,22 @@ public class GameCore {
 
         this.meshWidth = v/camera.scale;
         this.meshHeight = v/camera.scale;
-
-        //System.out.println("MESH = width:"+this.meshWidth+" height:"+this.meshHeight);
     }
 
     public void lose() {
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setTextSize(100);
-        paint.setFakeBoldText(true);
-        canvas.drawText("YOU DEAD", canvas.getWidth()/2-20, canvas.getHeight()/2, paint);
-        if (activity instanceof MainActivity) {
-            extraShutdown = true;
-            DialogLose dialoglose = new DialogLose(gameView, fragment);
-            dialoglose.show(fragment.getParentFragmentManager(), "win");
-        }
+        MediaPlayer loseSound = initSound(getActivity(), R.raw.lose_sound);
+        playSound(loseSound);
+        extraShutdown = true;
+        DialogLose dialoglose = new DialogLose(gameView, fragment);
+        dialoglose.show(fragment.getParentFragmentManager(), "win");
     }
 
     public void win() {
-        if (activity instanceof MainActivity) {
-            extraShutdown = true;
-            DialogWin dialogWin = new DialogWin(gameView, fragment);
-            dialogWin.show(fragment.getParentFragmentManager(), "win");
-        }
+        MediaPlayer winSound = initSound(getActivity(), R.raw.win_sound);
+        playSound(winSound);
+        extraShutdown = true;
+        DialogWin dialogWin = new DialogWin(gameView, fragment);
+        dialogWin.show(fragment.getParentFragmentManager(), "win");
     }
 
     public void clearGame() {

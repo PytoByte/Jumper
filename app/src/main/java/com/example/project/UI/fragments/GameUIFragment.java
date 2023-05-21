@@ -1,5 +1,6 @@
 package com.example.project.UI.fragments;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,11 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.project.R;
+import com.example.project.UI.Sounds;
 import com.example.project.UI.fragments.dialog.DialogPause;
 import com.example.project.databinding.FragmentGameUiBinding;
 import com.example.project.game.draw.DrawView;
 
-public class GameUIFragment extends Fragment {
+public class GameUIFragment extends Fragment implements Sounds {
 
     DrawView drawView;
     FragmentGameUiBinding binding;
@@ -40,6 +42,9 @@ public class GameUIFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_game_ui, container, false);
         binding = FragmentGameUiBinding.bind(view);
         binding.optionsButton.setOnClickListener(v -> summonInGameMenu());
+
+        MediaPlayer startSound = initSound(getActivity(), R.raw.start_sound);
+        playSound(startSound);
 
         this.drawView = new DrawView(binding.gameSurface.getHolder(), getContext(), this);
         Log.e("&", "onCreateView: hello?");

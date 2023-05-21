@@ -1,7 +1,5 @@
 package com.example.project.sprites;
 
-import static java.lang.Thread.currentThread;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -40,7 +38,7 @@ public class Finish extends Sprite {
 
     @Override
     protected void assignTexture() {
-        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.sample_finish);
+        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), FINISH_0);
 
         int width = gameCore.canvas.getWidth();
         int height = gameCore.canvas.getHeight();
@@ -63,11 +61,6 @@ public class Finish extends Sprite {
     @Override
     public void collide(Sprite sprite) {
         if (sprite.tag.equals("Player")) {
-            Paint paint = new Paint();
-            paint.setColor(Color.GREEN);
-            paint.setTextSize(100);
-            paint.setFakeBoldText(true);
-            gameCore.canvas.drawText("YOU WON", gameCore.canvas.getWidth()/2-20, gameCore.canvas.getHeight()/2, paint);
             gameCore.win();
         }
     }

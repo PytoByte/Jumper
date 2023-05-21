@@ -6,38 +6,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.fragments.LevelsFragment"
     android:orientation="vertical"
-    android:id="@+id/main">
+    android:id="@+id/main"
+    android:background="@color/black">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/quest_button"
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/coin"/>
+            <TextView
+                android:textColor="@color/white"
+                android:id="@+id/moneyCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/options_button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/options"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:text="@string/default_money"
+                android:textSize="30sp"
+                android:layout_gravity="center_vertical"
+                />
+        </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/pageContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1">
                 <fragment
                     android:layout_width="match_parent"

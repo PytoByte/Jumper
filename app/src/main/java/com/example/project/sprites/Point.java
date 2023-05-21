@@ -30,11 +30,11 @@ public class Point extends Sprite {
         col = new Collider();
         col.set(pos, 1, 1);
         this.gameCore = gameCore;
-        bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.point);
+        bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), POINT_0);
     }
 
     public static int getWidth(GameCore gameCore) {
-        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.point);
+        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), POINT_0);
 
         int width = gameCore.canvas.getWidth();
         int height = gameCore.canvas.getHeight();
@@ -45,7 +45,7 @@ public class Point extends Sprite {
     }
 
     public static int getHeight(GameCore gameCore) {
-        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.point);
+        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), POINT_0);
 
         int width = gameCore.canvas.getWidth();
         int height = gameCore.canvas.getHeight();

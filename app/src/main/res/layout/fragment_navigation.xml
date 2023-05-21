@@ -10,43 +10,33 @@
     android:background="@color/black">
 
     <ImageButton
+        android:id="@+id/shop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/shop"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:background="@color/black"
+        />
+
+    <ImageButton
         android:id="@+id/levels"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/map"
         android:scaleType="fitCenter"
         android:layout_weight="1"
-        android:backgroundTint="@android:color/transparent"
+        android:background="@color/black"
         />
 
     <ImageButton
         android:id="@+id/arcade"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/arcade"
         android:scaleType="fitCenter"
         android:layout_weight="1"
-        android:backgroundTint="@android:color/transparent"
-        />
-
-    <ImageButton
-        android:id="@+id/speedrun"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/competition"
-        android:scaleType="fitCenter"
-        android:layout_weight="1"
-        android:backgroundTint="@android:color/transparent"
-        />
-
-    <ImageButton
-        android:id="@+id/fight"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/versus"
-        android:scaleType="fitCenter"
-        android:layout_weight="1"
-        android:backgroundTint="@android:color/transparent"
+        android:background="@color/black"
         />
 
 

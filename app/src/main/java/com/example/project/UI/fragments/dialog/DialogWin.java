@@ -3,10 +3,13 @@ package com.example.project.UI.fragments.dialog;
 import static android.content.Context.MODE_PRIVATE;
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.project.R;
+import com.example.project.UI.Sounds;
 import com.example.project.databinding.FragmentDialogLoseBinding;
 import com.example.project.databinding.FragmentDialogWinBinding;
 import com.example.project.game.draw.DrawView;
@@ -28,15 +32,18 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
-public class DialogWin extends DialogFragment {
+public class DialogWin extends DialogFragment implements Sounds {
     FragmentDialogWinBinding binding;
 
     public DrawView drawView;
     public Fragment fragment;
 
+    MediaPlayer mPlayer;
+
     public DialogWin(DrawView drawView, Fragment fragment) {
         this.drawView = drawView;
         this.fragment = fragment;
+        mPlayer = initSound(fragment.getActivity(), R.raw.button_sound);
     }
 
     @Override
@@ -55,12 +62,21 @@ public class DialogWin extends DialogFragment {
         binding.exitButton.setOnClickListener(v -> toMainFragment());
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("points", MODE_PRIVATE);
-        binding.score.setText("Счёт: "+sharedPreferences.getInt("count", 0));
+
+        int score = sharedPreferences.getInt("count", 0);
+
+        binding.score.setText("Счёт: "+score);
+
+        sharedPreferences = fragment.getActivity().getSharedPreferences("user", MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+        prefEditor.putInt("money", sharedPreferences.getInt("money", 0)+score/10);
+        prefEditor.apply();
 
         return view;
     }
 
     public String getNextLevel() {
+        playSound(mPlayer);
         SharedPreferences sharedPreferences = fragment.getActivity().getSharedPreferences("level", MODE_PRIVATE);
         String levelName = "";
         try {
@@ -101,6 +117,7 @@ public class DialogWin extends DialogFragment {
     }
 
     public void restart() {
+        playSound(mPlayer);
         drawView.drawThread.requestStop();
         FragmentManager fm = fragment.getParentFragmentManager();
         fm.beginTransaction()
@@ -119,4 +136,7 @@ public class DialogWin extends DialogFragment {
         Log.e("TAG", "toMainFragment: results?");
         dismissNow();
     }
+
+    @Override
+    public void onCancel(@NonNull DialogInterface dialog) {}
 }

@@ -10,12 +10,16 @@ import com.example.project.sprites.extensions.Position;
 public class DeadZone {
     public Position pos;
     public GameCore gameCore;
-    public final Position stepPos = new Position(0, -0.2f);
+    public final Position stepPos = new Position(0, -0.05f);
     long timeBefore;
     final long deltaTime = (long)(0.1f*1_000_000_000L);
 
     public DeadZone(GameCore gameCore) {
         this.gameCore = gameCore;
+    }
+
+    public void resume() {
+        timeBefore = System.nanoTime();
     }
 
     public void move() {
@@ -27,7 +31,6 @@ public class DeadZone {
     public void draw() {
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
-        System.out.println(0+" "+gameCore.camera.toCanvasY(pos.y)+" "+gameCore.canvas.getWidth()+" "+gameCore.canvas.getHeight());
         gameCore.canvas.drawRect(new Rect(0, gameCore.camera.toCanvasY(pos.y), gameCore.canvas.getWidth(), gameCore.canvas.getHeight()), paint);
     }
 }

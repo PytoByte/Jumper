@@ -35,6 +35,14 @@ public class DrawThread extends Thread {
         running = false;
     }
 
+    public void requestPause() {
+        gameCore.pause = true;
+    }
+
+    public void requestResume() {
+        gameCore.pause = false;
+    }
+
     private void startTimer() {
         startTime = System.nanoTime();
     }
@@ -78,6 +86,7 @@ public class DrawThread extends Thread {
 
         while (running && !gameCore.extraShutdown) {
             canvas = surfaceHolder.lockCanvas();
+
             if (checkTimerRestart()) {
                 frames = 0;
             }
@@ -89,8 +98,7 @@ public class DrawThread extends Thread {
                         frames++;
                     }
                 } catch (Throwable er) {
-                    throw er;
-                    //Log.e("ERROR WHILE DRAWING", "run: " + er);
+                    Log.e("ERROR WHILE DRAWING", "run: " + er);
                 }
                 finally {
                     surfaceHolder.unlockCanvasAndPost(canvas);

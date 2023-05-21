@@ -1,13 +1,15 @@
 package com.example.project.sprites;
 
 import android.graphics.Bitmap;
+
+import com.example.project.sprites.extensions.BitmapBank;
 import com.example.project.sprites.extensions.Collider;
 import com.example.project.game.GameCore;
 import com.example.project.sprites.extensions.Position;
 
 import java.util.ArrayList;
 
-public abstract class Sprite {
+public abstract class Sprite implements BitmapBank {
     public String tag;
     public Position pos;
     public Collider col;

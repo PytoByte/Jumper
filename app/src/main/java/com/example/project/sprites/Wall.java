@@ -6,6 +6,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
+import com.example.project.sprites.extensions.BitmapBank;
 import com.example.project.sprites.extensions.Collider;
 import com.example.project.game.GameCore;
 import com.example.project.sprites.extensions.Position;
@@ -27,7 +28,7 @@ public class Wall extends Sprite {
         col = new Collider();
         col.set(pos, 1, 1);
         this.gameCore = gameCore;
-        bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.sample_wall);
+        bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), WALL_0);
     }
 
     public Wall(float x, float y, int rotate, GameCore gameCore) {
@@ -36,23 +37,19 @@ public class Wall extends Sprite {
         col.set(pos, 1, 1);
         this.gameCore = gameCore;
         this.rotate = rotate;
-        bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.sample_wall);
+        bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), WALL_0);
     }
 
     public void setType(int type) {
-        if (type==0) {
-            bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.sample_wall);
-        } else if (type==30) {
-            bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.angle_wall);
-        } else if (type==50) {
-            bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.real_angle_wall);
-        } else if (type==3) {
-            bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.third_wall);
+        try {
+            bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), getWallTexture(type));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public static int getWidth(GameCore gameCore) {
-        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.sample_wall);
+        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), WALL_0);
 
         int width = gameCore.canvas.getWidth();
         int height = gameCore.canvas.getHeight();
@@ -63,7 +60,7 @@ public class Wall extends Sprite {
     }
 
     public static int getHeight(GameCore gameCore) {
-        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), R.drawable.sample_wall);
+        Bitmap bitmapSource = BitmapFactory.decodeResource(gameCore.gameContext.getResources(), WALL_0);
 
         int width = gameCore.canvas.getWidth();
         int height = gameCore.canvas.getHeight();

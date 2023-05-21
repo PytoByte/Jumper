@@ -100,7 +100,6 @@ public class LevelLoader {
         ArcadeTree arcadeTree = new ArcadeTree();
         ArrayList part = arcadeTree.getNextPart(pattern);
         pattern = (int) part.get(1);
-
         AssetManager am = gameCore.activity.getAssets();
         InputStream is = am.open("parts/"+ part.get(0) +".json");
 

@@ -13,7 +13,7 @@ public class ArcadeTree {
 
         group = new ArrayList<>();
         variant = new ArrayList<>();
-        variant.add("part1"); variant.add(2);
+        variant.add("part0"); variant.add(2);
         group.add(variant);
         arcadeTree.put(0, group);
 
@@ -25,7 +25,7 @@ public class ArcadeTree {
 
         group = new ArrayList<>();
         variant = new ArrayList<>();
-        variant.add("part3"); variant.add(1);
+        variant.add("part1"); variant.add(1);
         group.add(variant);
         arcadeTree.put(2, group);
     }

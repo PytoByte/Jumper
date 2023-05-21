@@ -2,6 +2,7 @@ package com.example.project.UI.fragments;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,13 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.project.UI.Sounds;
 import com.example.project.UI.activities.MainActivity;
 import com.example.project.R;
 import com.example.project.databinding.FragmentPreviewBinding;
 
-public class PreviewFragment extends Fragment {
+public class PreviewFragment extends Fragment implements Sounds {
     FragmentPreviewBinding binding;
-
+    MediaPlayer mPlayer;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -25,6 +27,8 @@ public class PreviewFragment extends Fragment {
 
         binding = FragmentPreviewBinding.bind(view);
         binding.play.setOnClickListener(v -> startGame());
+
+        mPlayer = initSound(getActivity(), R.raw.enter_game);
 
         return view;
     }

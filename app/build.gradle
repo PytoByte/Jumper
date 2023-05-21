@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.project'
+    namespace 'pytobyte.game.jumper'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.project"
+        applicationId 'pytobyte.game.jumper'
         minSdk 24
         targetSdk 33
         versionCode 1

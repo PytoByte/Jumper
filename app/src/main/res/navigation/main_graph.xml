@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_preview"
-        android:name="com.example.project.UI.fragments.PreviewFragment"
+        android:name="pytobyte.game.jumper.UI.fragments.PreviewFragment"
         android:label="Preview" >
         <action
             android:id="@+id/action_fragment_preview_to_mainFragment"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.project.UI.fragments.MainFragment"
+        android:name="pytobyte.game.jumper.UI.fragments.MainFragment"
         android:label="MainFragment" >
         <action
             android:id="@+id/action_mainFragment_to_gameUIFragment"
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/gameUIFragment"
-        android:name="com.example.project.UI.fragments.GameUIFragment"
+        android:name="pytobyte.game.jumper.UI.fragments.GameUIFragment"
         android:label="fragment_game_ui"
         tools:layout="@layout/fragment_game_ui" >
         <action

@@ -36,6 +36,7 @@ public class PreviewFragment extends Fragment implements Sounds {
     private void startGame() {
         if (requireActivity() instanceof MainActivity) {
             findNavController(this).navigate(R.id.action_fragment_preview_to_mainFragment);
+            this.onDestroy();
         }
     }
 }

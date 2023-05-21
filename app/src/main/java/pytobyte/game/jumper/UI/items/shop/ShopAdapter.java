@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import pytobyte.game.jumper.R;
 import pytobyte.game.jumper.UI.Sounds;
+import pytobyte.game.jumper.batabase.SkinEntity;
+import pytobyte.game.jumper.batabase.SkinsDB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,20 +81,22 @@ public class ShopAdapter  extends RecyclerView.Adapter<ShopAdapter.ViewHolder> i
         String tag = String.valueOf(id);
         SharedPreferences sp = fragment.getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
         int money = sp.getInt("money", 0);
-        int cost = Prices.getPrice(id);
+        SkinsDB db = SkinsDB.getDatabase(fragment.getContext().getApplicationContext());
+        SkinEntity skin = (SkinEntity) db.getSkinDao().getSkin(id);
+        int cost = skin.cost;
+
         if (money>=cost) {
             playSound(mPlayerBuy, fragment.getActivity());
             SharedPreferences.Editor ep = sp.edit();
             ep.putInt("money", money-cost);
             ep.apply();
 
+            skin.setBought(true);
+            db.getSkinDao().update(skin);
+
             TextView moneyCount = fragment.getActivity().findViewById(R.id.moneyCount);
             moneyCount.setText(String.valueOf(money-cost));
 
-            sp = fragment.getActivity().getSharedPreferences("shop", Context.MODE_PRIVATE);
-            ep = sp.edit();
-            ep.putBoolean(tag, true);
-            ep.apply();
             updateStatus(id, holder);
         } else {
             Toast.makeText(fragment.getContext(), "Недостаточно средств", Toast.LENGTH_SHORT);
@@ -117,14 +121,15 @@ public class ShopAdapter  extends RecyclerView.Adapter<ShopAdapter.ViewHolder> i
             holder.buyUseButton.setText("Используется");
             holder.buyUseButton.setActivated(false);
         } else {
+            SkinsDB db = SkinsDB.getDatabase(fragment.getContext().getApplicationContext());
             holder.base.setBackgroundColor(Color.BLACK);
             holder.buyUseButton.setActivated(true);
 
-            if (sp.getBoolean(tag, false)) {
+            if (db.getSkinDao().getSkin(id).bought) {
                 holder.buyUseButton.setText("Использовать");
                 holder.buyUseButton.setOnClickListener(v -> use(id, holder));
             } else {
-                int price = Prices.getPrice(id);
+                int price = db.getSkinDao().getSkin(id).cost;
                 holder.buyUseButton.setText("Купить: "+price);
                 holder.buyUseButton.setOnClickListener(v -> buy(id, holder));
             }

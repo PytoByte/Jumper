@@ -1,6 +1,7 @@
 package pytobyte.game.jumper.UI.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,6 +10,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 
+import java.util.ArrayList;
+
+import pytobyte.game.jumper.UI.items.shop.DBWorking;
+import pytobyte.game.jumper.batabase.SkinEntity;
+import pytobyte.game.jumper.batabase.SkinsDB;
 import pytobyte.game.jumper.databinding.ActivityMainBinding;
 import pytobyte.game.jumper.sprites.extensions.BitmapBank;
 
@@ -33,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
             ep.putBoolean(String.valueOf(BitmapBank.PLAYER_0), true);
             ep.apply();
         }
+
+        try {
+            DBWorking dbw = new DBWorking();
+            dbw.fillDB(getApplicationContext());
+        } catch (Exception er) {}
 
     }
 }

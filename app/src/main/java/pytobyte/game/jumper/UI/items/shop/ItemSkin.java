@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import pytobyte.game.jumper.R;
 import pytobyte.game.jumper.databinding.FragmentItemSkinBinding;
 
-public class ItemSkin extends Fragment implements Prices {
+public class ItemSkin extends Fragment {
 
     FragmentItemSkinBinding binding;
 

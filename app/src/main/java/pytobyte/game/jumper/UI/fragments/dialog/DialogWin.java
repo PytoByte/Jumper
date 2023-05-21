@@ -130,6 +130,7 @@ public class DialogWin extends DialogFragment implements Sounds {
         drawView.drawThread.requestStop();
         Log.e("TAG", "toMainFragment: Trying");
         findNavController(fragment).navigate(R.id.action_gameUIFragment_to_mainFragment);
+        fragment.onDestroy();
         Log.e("TAG", "toMainFragment: results?");
         dismissNow();
     }

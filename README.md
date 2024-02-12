@@ -8,11 +8,11 @@
 
 Аркада
 
-<img src="/demo/Screen_recording_arcade.gif" alt="level" width="250"/>
+<img src="/demo/Screen_recording_arcade.gif" alt="arcade" width="250"/>
 
 Магазин
 
-<img src="/demo/Screen_recording_shop.gif" alt="level" width="250"/>
+<img src="/demo/Screen_recording_shop.gif" alt="shop" width="250"/>
 
 ## Проблемы
 * Коллизия хромает

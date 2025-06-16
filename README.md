@@ -1,5 +1,5 @@
 # Jumper
-Копия игры tomb of the mask. Это мой проект по окончанию samsung IT school
+Копия игры Tomb of the Mask. Это мой проект по окончанию Samsung IT School
 
 > **Интересный факт**
 > 
